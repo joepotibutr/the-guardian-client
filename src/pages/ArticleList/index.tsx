@@ -1,37 +1,32 @@
 import React from 'react';
-import axios from 'axios'
-import { ArticleListStyledWrapper } from './styled'
+import { ArticleListStyledWrapper, ArticleItem, Select } from './styled'
 import { Link } from 'react-router-dom'
+import { Content } from '../ArticleDetail'
 
-function ArticleList() {
+interface Props {
+  articles: Array<Content>
+}
 
-  const [articles, setArticles] = React.useState([])
-
-  React.useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const { data } = await axios.get('http://localhost:8888')
-        setArticles(data.response.results)
-      } catch (err) {
-
-      }
-    }
-    fetchArticles()
-  }, [])
+function ArticleList({ articles }: Props) {
 
 
   return (
     <ArticleListStyledWrapper>
-          <ul>
+    
+          <ul className="list">
           {articles.length ? articles.map((article: any) => {
             return (
-              <li key={article.id}>
+              <>
+              <ArticleItem key={article.id}>
                   <Link to={article.id}>
-              <h3>{article.webTitle}</h3>
-              </Link>
-              </li>
+                    <h3 className="article-title">{article.webTitle}</h3>
+                  </Link>
+              </ArticleItem>
+              <hr/>
+              </>
+
             )
-          }) : null}
+          }) : <h1>Loading ...</h1>}
           </ul>
     </ArticleListStyledWrapper>
   );
