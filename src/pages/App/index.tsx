@@ -1,25 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios'
+import { AppStyledWrapper } from './styled'
 
 function App() {
+
+  const [articles, setArticles] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:8888')
+        setArticles(data.response.results)
+      } catch (err) {
+
+      }
+    }
+    fetchArticles()
+  }, [])
+
+
   return (
-    <div className="App">
+    <AppStyledWrapper>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+          <ul>
+          {articles.length && articles.map((article: any) => {
+            return (
+              <li key={article.id}>
+              <h3>{article.webTitle}</h3>
+              </li>
+            )
+          })}
+          </ul>
       </header>
-    </div>
+    </AppStyledWrapper>
   );
 }
 
