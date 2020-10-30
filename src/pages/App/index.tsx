@@ -1,38 +1,31 @@
 import React from 'react';
-import axios from 'axios'
 import { AppStyledWrapper } from './styled'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useRouteMatch
+} from "react-router-dom";
+
+import ArticleList from '../ArticleList'
+import ArticleDetail from '../ArticleDetail';
 
 function App() {
 
-  const [articles, setArticles] = React.useState([])
-
-  React.useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const { data } = await axios.get('http://localhost:8888')
-        setArticles(data.response.results)
-      } catch (err) {
-
-      }
-    }
-    fetchArticles()
-  }, [])
-
-
   return (
-    <AppStyledWrapper>
-      <header className="App-header">
-          <ul>
-          {articles.length && articles.map((article: any) => {
-            return (
-              <li key={article.id}>
-              <h3>{article.webTitle}</h3>
-              </li>
-            )
-          })}
-          </ul>
-      </header>
-    </AppStyledWrapper>
+    <Router>
+      <AppStyledWrapper>
+      <Switch>
+            <Route path={`/:articleId`}>
+              <ArticleDetail />
+            </Route>
+            <Route path="/">
+              <ArticleList />
+            </Route>
+          </Switch>
+      </AppStyledWrapper>
+    </Router>
+    
   );
 }
 
