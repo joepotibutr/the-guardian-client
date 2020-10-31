@@ -1,6 +1,6 @@
 import React from 'react'
 import {Select, HeaderStyled} from './styled'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { Content } from '../../pages/ArticleDetail'
 
@@ -18,6 +18,10 @@ export default (props: Props) => {
         searchTerms: '',
         orderBy: 'newest'
     })
+
+    const history = useHistory()
+    
+
     const [value, setValue] = React.useState(''); 
 
     const timeoutRef = React.useRef(null) 
@@ -27,6 +31,7 @@ export default (props: Props) => {
         if (value !== '') {
                 props.setArticles([])
                 setSearchConfig(prev => ({ ...prev, searchTerms: value }))
+                history.push('/')
                 search(SEARCH_CONFIG.SEARCH_TERMS, value);
             }
         }, 1500);
