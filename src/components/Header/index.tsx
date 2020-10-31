@@ -8,6 +8,11 @@ interface Props {
     setArticles: (articles: Array<Content>) => void
 }
 
+enum SEARCH_CONFIG {
+    ORDER_BY = 'orderBy',
+    SEARCH_TERMS = 'searchTerms'
+}
+
 export default (props: Props) => {
     const [searchConfig, setSearchConfig] = React.useState({
         searchTerms: '',
@@ -20,9 +25,9 @@ export default (props: Props) => {
     React.useEffect(() => {
     const timeout = setTimeout(()=> {
         if (value !== '') {
-                setSearchConfig(prev => ({ ...prev, searchTerms: value }))
                 props.setArticles([])
-                search('searchTerms', value);
+                setSearchConfig(prev => ({ ...prev, searchTerms: value }))
+                search(SEARCH_CONFIG.SEARCH_TERMS, value);
             }
         }, 1500);
 
@@ -44,17 +49,23 @@ export default (props: Props) => {
 
     return (
         <HeaderStyled>
-            <div className="header-layout">  
-                <div className="search-bar">
-                    <input ref={timeoutRef} onChange={(e) => setValue(e.target.value)} className="search-input" type="text" />
-                    <Select defaultValue="newest" onChange={(e) => search('orderBy',e.target.value)}>
-            <option value="newest">Newest First</option>
-            <option value="oldest">Oldest First</option>
-          </Select>
-                    {/* <Link to="/"><img onClick={() => search(searchTerms)} className="search-icon" src={LoupeLogo}/></Link> */}
-                </div>
-                <div className="logo">
-                    <Link to="/">The Guardian</Link>
+            <div className="header-layout">
+                <div className="header-title">
+                    <div className="search-bar">
+                        <span className="input-wrapper">
+                            <input ref={timeoutRef} onChange={(e) => setValue(e.target.value)} className="search-input" type="text" />
+                        </span>
+                        <Select  value={searchConfig.orderBy} onChange={(e) => {
+                            setSearchConfig(prev => ({ ...prev, orderBy: e.target.value }))
+                            search(SEARCH_CONFIG.ORDER_BY, e.target.value)
+                            }}>
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </Select>
+                    </div>
+                    <div className="logo">
+                        <Link to="/">The Guardian</Link>
+                    </div>
                 </div>
             </div>
         </HeaderStyled>

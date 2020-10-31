@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Select = styled.select`
-    height: 40px;
+    height: 35px;
     padding: 10px;
     border-radius: 6px;
 
@@ -13,41 +13,45 @@ export const HeaderStyled = styled.header`
     position: sticky;
     top: 0;
 
+    
+
     .header-layout {
+        padding-bottom: 50px;
         max-width: 960px;
+        height: 100%;
         margin: 0 auto;
+       
+
+        .header-title {
+            margin: 0 auto;
         height: 100%;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-end;
+        padding: 0 20px;
 
-        .search-bar {
+            .search-bar {
             padding: 0 20px;
             width: 100%;
-            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 0 20px;
 
-            .search-icon {
-                filter:invert();
-                width: 30px;
-                height: 30px;
-                margin-left: 30px;
-                cursor:pointer;
+            .input-wrapper {
+                width: 100%;
 
-            }
-
-            .search-input {
+                .search-input {
                 &:focus {
                     outline-width: 0;
                 }
                 padding-left: 10px;
                 width: 100%;
-                height: 30px;
+                height: 35px;
                 border-radius: 5px;
             }
+            }
+
+            
         }
 
         .logo {
@@ -61,7 +65,18 @@ export const HeaderStyled = styled.header`
                 color: #ffffff;
             }
         }
+        }
     }
+
+
+    @media only screen and (max-width: 720px) {
+           .header-layout > .header-title {
+                flex-direction: column-reverse;
+                align-items: baseline;
+                justify-content: flex-start;
+                margin-bottom: 0;
+            }
+        }
 
     
 
